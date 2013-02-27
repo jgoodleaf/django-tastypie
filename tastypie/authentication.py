@@ -168,7 +168,7 @@ class ApiKeyAuthentication(Authentication):
 
             username, api_key = data.split(':', 1)
         else:
-            username = request.GET.get('username') or request.POST.get('username')
+            username = (request.GET.get('username') or request.POST.get('username')) or request.GET.get('email')
             api_key = request.GET.get('api_key') or request.POST.get('api_key')
 
         return username, api_key
@@ -194,6 +194,8 @@ class ApiKeyAuthentication(Authentication):
             user = User.objects.get(username=username)
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return self._unauthorized()
+        except:
+            user = User.objects.get(email=username)
 
         if not self.check_active(user):
             return False
