@@ -359,12 +359,17 @@ class DigestAuthentication(Authentication):
         return True
 
     def get_user(self, username):
-        from django.contrib.auth.models import User
+        #from django.contrib.auth.models import User
 
         try:
             user = User.objects.get(username=username)
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             return False
+        except:
+            try:
+                user = User.objects.get(email=username)
+            except:
+                return False
 
         return user
 
