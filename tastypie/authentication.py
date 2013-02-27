@@ -10,6 +10,8 @@ from django.middleware.csrf import _sanitize_token, constant_time_compare
 from django.utils.http import same_origin
 from django.utils.translation import ugettext as _
 from tastypie.http import HttpUnauthorized
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 try:
     from hashlib import sha1
@@ -178,7 +180,7 @@ class ApiKeyAuthentication(Authentication):
         Should return either ``True`` if allowed, ``False`` if not or an
         ``HttpResponse`` if you need something custom.
         """
-        from django.contrib.auth.models import User
+        #from django.contrib.auth.models import User
 
         try:
             username, api_key = self.extract_credentials(request)
